@@ -7,23 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50B9DE9B9D431CA8CC2C85F1 /* Pods_Seventhproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263FDDF62CF1D9EF5235F734 /* Pods_Seventhproject.framework */; };
 		BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078DC27E01122007B02B5 /* AppDelegate.swift */; };
 		BFA078DF27E01122007B02B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078DE27E01122007B02B5 /* SceneDelegate.swift */; };
 		BFA078E127E01122007B02B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078E027E01122007B02B5 /* ViewController.swift */; };
-		BFA078E427E01122007B02B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFA078E227E01122007B02B5 /* Main.storyboard */; };
 		BFA078E627E01127007B02B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA078E527E01127007B02B5 /* Assets.xcassets */; };
 		BFA078E927E01127007B02B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */; };
+		BFA078F127E21DA3007B02B5 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */; };
+		BFA078F327E22A09007B02B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F227E22A09007B02B5 /* API.swift */; };
+		BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F527E2A661007B02B5 /* ResponseModel.swift */; };
+		BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		263FDDF62CF1D9EF5235F734 /* Pods_Seventhproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Seventhproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		59FA1F805BDA9E0227E7C1F3 /* Pods-Seventhproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seventhproject.debug.xcconfig"; path = "Target Support Files/Pods-Seventhproject/Pods-Seventhproject.debug.xcconfig"; sourceTree = "<group>"; };
+		A86D126799682BADAC2A4F9D /* Pods-Seventhproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seventhproject.release.xcconfig"; path = "Target Support Files/Pods-Seventhproject/Pods-Seventhproject.release.xcconfig"; sourceTree = "<group>"; };
 		BFA078D927E01122007B02B5 /* Seventhproject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seventhproject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA078DC27E01122007B02B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA078DE27E01122007B02B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BFA078E027E01122007B02B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BFA078E327E01122007B02B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFA078E527E01127007B02B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFA078E827E01127007B02B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFA078EA27E01127007B02B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
+		BFA078F227E22A09007B02B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		BFA078F527E2A661007B02B5 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
+		BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +41,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B9DE9B9D431CA8CC2C85F1 /* Pods_Seventhproject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15ABA96A3FC0B729962B943C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				263FDDF62CF1D9EF5235F734 /* Pods_Seventhproject.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7B048613A7378BBEDA6D9116 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				59FA1F805BDA9E0227E7C1F3 /* Pods-Seventhproject.debug.xcconfig */,
+				A86D126799682BADAC2A4F9D /* Pods-Seventhproject.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BFA078D027E01122007B02B5 = {
 			isa = PBXGroup;
 			children = (
 				BFA078DB27E01122007B02B5 /* Seventhproject */,
 				BFA078DA27E01122007B02B5 /* Products */,
+				7B048613A7378BBEDA6D9116 /* Pods */,
+				15ABA96A3FC0B729962B943C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,12 +89,23 @@
 				BFA078DC27E01122007B02B5 /* AppDelegate.swift */,
 				BFA078DE27E01122007B02B5 /* SceneDelegate.swift */,
 				BFA078E027E01122007B02B5 /* ViewController.swift */,
-				BFA078E227E01122007B02B5 /* Main.storyboard */,
+				BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */,
+				BFA078F227E22A09007B02B5 /* API.swift */,
 				BFA078E527E01127007B02B5 /* Assets.xcassets */,
+				BFA078F427E2A654007B02B5 /* Model */,
 				BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */,
 				BFA078EA27E01127007B02B5 /* Info.plist */,
 			);
 			path = Seventhproject;
+			sourceTree = "<group>";
+		};
+		BFA078F427E2A654007B02B5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFA078F527E2A661007B02B5 /* ResponseModel.swift */,
+				BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +115,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFA078ED27E01127007B02B5 /* Build configuration list for PBXNativeTarget "Seventhproject" */;
 			buildPhases = (
+				B386526607284A8F22650C36 /* [CP] Check Pods Manifest.lock */,
 				BFA078D527E01122007B02B5 /* Sources */,
 				BFA078D627E01122007B02B5 /* Frameworks */,
 				BFA078D727E01122007B02B5 /* Resources */,
+				4C9F701415D6F1272FC80196 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,11 +170,52 @@
 			files = (
 				BFA078E927E01127007B02B5 /* LaunchScreen.storyboard in Resources */,
 				BFA078E627E01127007B02B5 /* Assets.xcassets in Resources */,
-				BFA078E427E01122007B02B5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4C9F701415D6F1272FC80196 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Seventhproject/Pods-Seventhproject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Seventhproject/Pods-Seventhproject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Seventhproject/Pods-Seventhproject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B386526607284A8F22650C36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Seventhproject-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BFA078D527E01122007B02B5 /* Sources */ = {
@@ -139,22 +223,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA078E127E01122007B02B5 /* ViewController.swift in Sources */,
+				BFA078F127E21DA3007B02B5 /* InfoTableViewCell.swift in Sources */,
 				BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */,
 				BFA078DF27E01122007B02B5 /* SceneDelegate.swift in Sources */,
+				BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */,
+				BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */,
+				BFA078F327E22A09007B02B5 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BFA078E227E01122007B02B5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BFA078E327E01122007B02B5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -284,6 +364,7 @@
 		};
 		BFA078EE27E01127007B02B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 59FA1F805BDA9E0227E7C1F3 /* Pods-Seventhproject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -294,7 +375,6 @@
 				INFOPLIST_FILE = Seventhproject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -312,6 +392,7 @@
 		};
 		BFA078EF27E01127007B02B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A86D126799682BADAC2A4F9D /* Pods-Seventhproject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -322,7 +403,6 @@
 				INFOPLIST_FILE = Seventhproject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
