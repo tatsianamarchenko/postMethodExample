@@ -41,33 +41,29 @@ class API: NSObject {
 			}.resume()
 	}
 
-	func makePOSTRequest() {
+	func makePOSTRequest <T: Decodable> (data: [String : [String : String]], completion: @escaping((Result<T, Error>) -> Void)) {
 		guard let url = URL(string: "http://test.clevertec.ru/tt/data/")
 		else {return}
 		var request = URLRequest(url: url)
 
-		let jsonBody = ["form": ["text": "bhjnkl", "numeric": "fdbrb", "list": "v1"]]
+		let jsonBody = data
 
 		request.httpMethod = "POST"
-		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		guard let httpBody =  try? JSONSerialization.data(withJSONObject: jsonBody, options: []) else {return}
 		request.httpBody = httpBody
 		let session = URLSession.shared
 		session.dataTask(with: request) {
-			data, response, error in
-			if let response = response {
-				print(response)
-			}
+			data, _, error in
 			guard let data = data, error == nil else {
 				return
 			}
 			do {
-				let response = try JSONSerialization.jsonObject(with: data, options: [])
-				print(response)
 				let decoder = JSONDecoder()
-				let decodedData = try decoder.decode(Response.self, from: data)
-				print(decodedData.result)
+				let decodedData = try decoder.decode(T.self, from: data)
+				completion(.success(decodedData))
 			} catch  {
+				completion(.failure(error))
 				print(error)
 			}
 
@@ -79,4 +75,3 @@ enum CustomError: Error {
 	case corruptedData
 	case errorGeneral
 }
-

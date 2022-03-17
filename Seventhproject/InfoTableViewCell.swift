@@ -11,7 +11,7 @@ import SnapKit
 class InfoTableViewCell: UITableViewCell {
 	static var cellIdentifier = "InfoTableViewCell"
 
-	private lazy var textField: UITextField = {
+	var textField: UITextField = {
 		var textfield = UITextField()
 		textfield.layer.cornerRadius = 5
 		textfield.layer.borderWidth = 1
@@ -40,7 +40,6 @@ class InfoTableViewCell: UITableViewCell {
 			make.trailing.equalTo(contentView.snp_trailingMargin)
 			make.top.equalTo(contentView.snp_topMargin)
 		}
-
 	}
 
 	required init?(coder: NSCoder) {
@@ -56,10 +55,10 @@ class InfoTableViewCell: UITableViewCell {
 		case "NUMERIC" : print("NUMERIC")
 			textField.keyboardType = .numberPad
 		case "LIST" : print("LIST")
+			textField.removeFromSuperview()
+			contentView.addSubview(buttom)
 		default:
 			break
 		}
-		
 	}
-
 }

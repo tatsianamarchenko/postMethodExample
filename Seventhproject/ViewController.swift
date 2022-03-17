@@ -13,11 +13,18 @@ class ViewController: UIViewController {
 	private lazy var image = UIImageView()
 
 	private lazy var infoTable: UITableView = {
-	  let table = UITableView()
-	  table.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.cellIdentifier)
-	  return table
+		let table = UITableView()
+		table.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.cellIdentifier)
+		return table
 	}()
-var array = [Field]()
+
+	private lazy var alert: UIAlertController = {
+		var alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "отмена", style: .cancel, handler: nil))
+		return alert
+	}()
+	
+	var array = [Field]()
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		API().fetch(urlString: API().urlATMsString) { (result: Result<Empty, CustomError>)  in
@@ -37,19 +44,19 @@ var array = [Field]()
 		view.backgroundColor = .systemBackground
 		view.addSubview(infoTable)
 		view.addSubview(image)
-		infoTable.backgroundColor = .magenta
 		infoTable.dataSource = self
 		infoTable.delegate = self
 		infoTable.snp.makeConstraints { (make) -> Void in
 			make.leading.trailing.top.equalToSuperview()
-		 	make.bottom.equalToSuperview()
+			make.bottom.equalTo(image.snp_topMargin)
 		}
-//		image.snp.makeConstraints { (make) -> Void in
-//			make.leading.equalToSuperview().offset(10)
-//			make.trailing.equalToSuperview().offset(-10)
-//			make.top.equalTo(infoTable.snp_bottomMargin)
-//		}
+		image.snp.makeConstraints { (make) -> Void in
+			make.leading.equalToSuperview().offset(10)
+			make.trailing.equalToSuperview().offset(-10)
+			make.top.equalTo(infoTable.snp_topMargin).offset(200)
+		}
 	}
+	var text = ""
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -58,12 +65,24 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		  if let cell = infoTable.dequeueReusableCell(withIdentifier: InfoTableViewCell.cellIdentifier, for: indexPath)
-			  as? InfoTableViewCell {
-			  cell.config(model: array[indexPath.row])
+
+		if let cell = infoTable.dequeueReusableCell(withIdentifier: InfoTableViewCell.cellIdentifier, for: indexPath)
+			as? InfoTableViewCell {
+			cell.config(model: array[indexPath.row])
+			cell.textField.delegate = self
+			cell.textField.tag = indexPath.row
+			cell.textField.addTarget(self, action: #selector(textinfo(sender:)), for: UIControl.Event.editingChanged)
 			return cell
-		  }
-		  return UITableViewCell()
+		}
+		return UITableViewCell()
+	}
+	@objc func textinfo(sender: UITextField) {
+		if	sender.tag == 0 {
+		text =  "fvygbuhnijkm"
+		}
+		if	sender.tag == 1 {
+		text =  "vgbhjnk"
+		}
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -78,19 +97,48 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 		let buttom = UIButton()
 		buttom.backgroundColor = .orange
 		buttom.setTitle("send info", for: .normal)
-		buttom.setTitleColor(.systemMint, for: .focused)
+		buttom.setTitleColor(.systemMint, for: .highlighted)
 		buttom.addTarget(self, action: #selector(send), for: .touchUpInside)
 		return buttom
 	}
 
 	@objc func send() {
-		API().makePOSTRequest()
-		print("lol")
+
+		API().makePOSTRequest(data: ["form": ["text": text, "numeric": text, "list": "v1"]]) { [self] (result:Result<Response, Error>)  in
+			switch result {
+			case .success(let success):
+				print(success.result)
+				DispatchQueue.main.async {
+					alert.title = "отправлено"
+					alert.message = success.result
+					present(alert, animated: true)
+				}
+			case .failure(let failure):
+				DispatchQueue.main.async {
+					alert.title = "ошибка"
+					alert.message = failure.localizedDescription
+					present(alert, animated: true)
+				}
+			}
 		}
+	}
 
 	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 		30
 	}
+}
+
+extension ViewController: UITextFieldDelegate {
+	   func textFieldDidEndEditing(_ textField: UITextField) {
+		   guard let cell = textField.superview?.superview as? UITableViewCell, let indexPath = infoTable.indexPath(for: cell) else { return }
+		   print(indexPath)
+	   }
+
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		   let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+		   print(text)
+		   return true
+	   }
 }
 
 extension UIImageView {
@@ -105,8 +153,3 @@ extension UIImageView {
 		}).resume()
 	}
 }
-
-
-//Ввод строки (вводится произвольная текстовая строка)
-//Ввод числа (вводится целое или дробное число)
-//Выбор значения (выбирается одно значение из списка возможных). Можно как UIPickerView, так и открытием отдельного UIViewController (желательно).
