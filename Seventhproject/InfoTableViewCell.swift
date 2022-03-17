@@ -18,11 +18,7 @@ class InfoTableViewCell: UITableViewCell {
 		return textfield
 	}()
 
-	var buttom: UIButton = {
-		var buttom = UIButton()
-		buttom.tintColor = .magenta
-		return buttom
-	}()
+	var valuesPicker = UIPickerView()
 
 	private lazy var infoLable = UILabel()
 
@@ -33,10 +29,11 @@ class InfoTableViewCell: UITableViewCell {
 		infoLable.snp.makeConstraints { (make) -> Void in
 			make.leading.equalTo(contentView.snp_leadingMargin)
 			make.top.equalTo(contentView.snp_topMargin)
+			make.trailing.equalTo(textField.snp_leadingMargin).offset(-40)
 		}
 
 		textField.snp.makeConstraints { (make) -> Void in
-			make.leading.equalTo(infoLable.snp_trailingMargin).offset(20)
+		//	make.leading.equalTo(infoLable.snp_trailingMargin).offset(20)
 			make.trailing.equalTo(contentView.snp_trailingMargin)
 			make.top.equalTo(contentView.snp_topMargin)
 		}
@@ -49,14 +46,16 @@ class InfoTableViewCell: UITableViewCell {
 	func config (model: Field) {
 		infoLable.text = model.title
 		textField.placeholder = model.type
+		textField.accessibilityIdentifier = model.name
+		infoLable.lineBreakMode = NSLineBreakMode.byWordWrapping
+		infoLable.numberOfLines = 0
 		switch model.type {
 		case "TEXT" : print("TEXT")
 			textField.keyboardType = .default
 		case "NUMERIC" : print("NUMERIC")
 			textField.keyboardType = .numberPad
-		case "LIST" : print("LIST")
-			textField.removeFromSuperview()
-			contentView.addSubview(buttom)
+		case "LIST" : print("NUMERIC")
+		//	textField.inputView = valuesPicker
 		default:
 			break
 		}

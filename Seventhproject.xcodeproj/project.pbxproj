@@ -17,6 +17,8 @@
 		BFA078F327E22A09007B02B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F227E22A09007B02B5 /* API.swift */; };
 		BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F527E2A661007B02B5 /* ResponseModel.swift */; };
 		BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */; };
+		BFA078FD27E374ED007B02B5 /* ListTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */; };
+		BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		BFA078F227E22A09007B02B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		BFA078F527E2A661007B02B5 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
+		BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTypeTableViewCell.swift; sourceTree = "<group>"; };
+		BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +93,9 @@
 				BFA078DC27E01122007B02B5 /* AppDelegate.swift */,
 				BFA078DE27E01122007B02B5 /* SceneDelegate.swift */,
 				BFA078E027E01122007B02B5 /* ViewController.swift */,
+				BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */,
 				BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */,
+				BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */,
 				BFA078F227E22A09007B02B5 /* API.swift */,
 				BFA078E527E01127007B02B5 /* Assets.xcassets */,
 				BFA078F427E2A654007B02B5 /* Model */,
@@ -224,11 +230,13 @@
 			files = (
 				BFA078E127E01122007B02B5 /* ViewController.swift in Sources */,
 				BFA078F127E21DA3007B02B5 /* InfoTableViewCell.swift in Sources */,
+				BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */,
 				BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */,
 				BFA078DF27E01122007B02B5 /* SceneDelegate.swift in Sources */,
 				BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */,
 				BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */,
 				BFA078F327E22A09007B02B5 /* API.swift in Sources */,
+				BFA078FD27E374ED007B02B5 /* ListTypeTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
