@@ -19,13 +19,28 @@ class InfoTableViewCell: UITableViewCell {
 	}()
 
 	var valuesPicker = UIPickerView()
-
 	private lazy var infoLable = UILabel()
-
+	var toolBar = UIToolbar()
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(textField)
 		contentView.addSubview(infoLable)
+
+
+
+
+
+
+
+
+		toolBar.barStyle = UIBarStyle.default
+		toolBar.isTranslucent = true
+		toolBar.tintColor = .systemMint
+	 toolBar.sizeToFit()
+		let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelClicked))
+
+		toolBar.setItems([doneButton], animated: true)
+
 		infoLable.snp.makeConstraints { (make) -> Void in
 			make.leading.equalTo(contentView.snp_leadingMargin)
 			make.top.equalTo(contentView.snp_topMargin)
@@ -39,6 +54,11 @@ class InfoTableViewCell: UITableViewCell {
 		}
 	}
 
+
+	@objc func cancelClicked(_ button: UIBarButtonItem?) {
+		textField.resignFirstResponder()
+	}
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -49,13 +69,14 @@ class InfoTableViewCell: UITableViewCell {
 		textField.accessibilityIdentifier = model.name
 		infoLable.lineBreakMode = NSLineBreakMode.byWordWrapping
 		infoLable.numberOfLines = 0
+		textField.inputAccessoryView = toolBar
 		switch model.type {
 		case "TEXT" : print("TEXT")
 			textField.keyboardType = .default
 		case "NUMERIC" : print("NUMERIC")
-			textField.keyboardType = .numberPad
+			textField.keyboardType = .numbersAndPunctuation
 		case "LIST" : print("NUMERIC")
-		//	textField.inputView = valuesPicker
+			textField.inputView = valuesPicker
 		default:
 			break
 		}

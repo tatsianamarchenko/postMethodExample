@@ -16,7 +16,6 @@ class ViewController: UIViewController {
 	private lazy var infoTable: UITableView = {
 		let table = UITableView()
 		table.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.cellIdentifier)
-		table.register(ListTypeTableViewCell.self, forCellReuseIdentifier: ListTypeTableViewCell.cellIdentifier)
 		return table
 	}()
 
@@ -29,18 +28,31 @@ class ViewController: UIViewController {
 	var array = [Field]()
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		 activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: .systemMint, padding: nil)
+		activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: .systemMint, padding: nil)
 		activityIndicatorView.startAnimating()
 		API().fetch(urlString: API().urlATMsString) { (result: Result<Empty, CustomError>)  in
 			switch result {
 			case .success(let success):
 				self.array = success.fields
 				print("xd")
-				DispatchQueue.main.async {
+				DispatchQueue.main.async { [self] in
 					self.infoTable.reloadData()
 					self.title = success.title
 					self.image.downloadedFrom(link: success.image)
 					self.activityIndicatorView.stopAnimating()
+
+					valuesRecived = array[2].values
+					self.a = ["none": self.valuesRecived?.none, "v1": self.valuesRecived?.v1, "v2": self.valuesRecived?.v2, "v3": valuesRecived?.v3 ]
+					print(a)
+
+					for (key, value) in self.a {
+						objectArray.append(Row(key: key, value: value!))
+					}
+					objectArray.sort {
+						$0.key < $1.key
+					}
+
+
 				}
 			case .failure(let failure):
 				print("error")
@@ -64,6 +76,13 @@ class ViewController: UIViewController {
 	}
 	var text: String = "empty"
 	var numeric: String = "empty"
+
+	var valuesRecived: Values?
+	var valuesPicker = UIPickerView()
+	var a = [String: String?]()
+	var objectArray = [Row]()
+	var returnValue = ""
+
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -72,33 +91,32 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		if array[indexPath.row].name == "text" || array[indexPath.row].name == "numeric" {
-			if let cell = infoTable.dequeueReusableCell(withIdentifier: InfoTableViewCell.cellIdentifier, for: indexPath)
-				as? InfoTableViewCell {
-				cell.config(model: array[indexPath.row])
-				cell.textField.delegate = self
-				cell.textField.addTarget(self, action: #selector(textinfo(sender:)), for: UIControl.Event.editingChanged)
-				return cell
-			}
-		}
-
-		if array[indexPath.row].name == "list" {
-			if let cell = infoTable.dequeueReusableCell(withIdentifier: ListTypeTableViewCell.cellIdentifier, for: indexPath)
-				as? ListTypeTableViewCell {
-				cell.config(model: array[indexPath.row])
-				cell.buttom.addTarget(self, action: #selector(values), for: .touchUpInside)
-				return cell
-			}
+		if let cell = infoTable.dequeueReusableCell(withIdentifier: InfoTableViewCell.cellIdentifier, for: indexPath)
+			as? InfoTableViewCell {
+			cell.config(model: array[indexPath.row])
+			cell.textField.delegate = self
+			cell.valuesPicker.dataSource = self
+			cell.valuesPicker.delegate = self
+			cell.textField.addTarget(self, action: #selector(textinfo(sender:)), for: UIControl.Event.editingChanged)
+			return cell
 		}
 		return UITableViewCell()
 	}
 	@objc func textinfo(sender: UITextField) {
 
 		if	sender.accessibilityIdentifier == "text"  {
+			guard let textFilter = sender.text else { return }
+			let ruCharacters = "йцукенгшщзхъфывапролджэёячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЁЯЧСМИТЬБЮ"
+			let engCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+			let numbers = "1234567890"
+			sender.text = textFilter.filter { ruCharacters.contains($0) || engCharacters.contains($0) || numbers.contains($0)}
 			text =  sender.text ?? "empty"
 		}
 		if	sender.accessibilityIdentifier == "numeric" {
-			numeric = sender.text ?? "empty"
+			guard let textFilter = sender.text else { return }
+			let numbers = "1234567890"
+			let symbol = "."
+			sender.text = textFilter.filter {numbers.contains($0) || symbol.contains($0)}
 		}
 	}
 
@@ -119,20 +137,20 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 		return buttom
 	}
 
-	@objc func values() {
-
-		let nav = UINavigationController(rootViewController: ValuesViewController(values: array[2].values!))
-		nav.modalPresentationStyle = .automatic
-		if let sheet = nav.sheetPresentationController {
-			sheet.detents = [.medium(), .large()]
-		}
-		present(nav, animated: true, completion: nil)
-
-	}
+	//	@objc func values() {
+	//
+	//		let nav = UINavigationController(rootViewController: ValuesViewController(values: array[2].values!))
+	//		nav.modalPresentationStyle = .automatic
+	//		if let sheet = nav.sheetPresentationController {
+	//			sheet.detents = [.medium(), .large()]
+	//		}
+	//		present(nav, animated: true, completion: nil)
+	//
+	//	}
 
 	@objc func send() {
 		activityIndicatorView.startAnimating()
-		API().makePOSTRequest(data: ["form": ["text": text, "numeric": numeric, "list":  ValuesViewController.returnValue]]) { [self] (result:Result<Response, Error>)  in
+		API().makePOSTRequest(data: ["form": ["text": text, "numeric": numeric, "list": returnValue]]) { [self] (result:Result<Response, Error>)  in
 			switch result {
 			case .success(let success):
 				print(success.result)
@@ -158,16 +176,66 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension ViewController: UITextFieldDelegate {
-	   func textFieldDidEndEditing(_ textField: UITextField) {
-		   guard let cell = textField.superview?.superview as? UITableViewCell, let indexPath = infoTable.indexPath(for: cell) else { return }
-		   print(indexPath)
-	   }
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		guard let cell = textField.superview?.superview as? UITableViewCell, let indexPath = infoTable.indexPath(for: cell) else { return }
+		print(indexPath)
+	}
 
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		   let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-		   print(text)
-		   return true
-	   }
+		if textField.accessibilityIdentifier == "text" {
+			let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+			print(text)
+			return true
+		}
+		if textField.accessibilityIdentifier == "numeric" {
+			NSObject.cancelPreviousPerformRequests(
+				withTarget: self,
+				selector: #selector(self.getHintsFromTextField),
+				object: textField)
+			self.perform(
+				#selector(self.getHintsFromTextField),
+				with: textField,
+				afterDelay: 2)
+			return true
+		}
+		return true
+	}
+
+	@objc func getHintsFromTextField(textField: UITextField) {
+		guard let textFilter = textField.text else { return }
+		if let number = NumberFormatter().number(from: textFilter)?.doubleValue {
+			if number > 1 && number < 1024 {
+				numeric = String(number)
+				print("Hints for textField: \(numeric)")
+			} else {
+				numeric = "empty"
+				textField.text = ""
+				print("Hints for textField: \(numeric)")
+			}
+		}
+	}
+}
+
+extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+
+	func numberOfComponents(in pickerView: UIPickerView) -> Int {
+		1
+	}
+
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+		a.values.count
+	}
+
+
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+		print(objectArray[row].value)
+		return objectArray[row].value
+	}
+
+	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+		returnValue = objectArray[row].key
+	}
+
 }
 
 extension UIImageView {
@@ -183,38 +251,8 @@ extension UIImageView {
 	}
 }
 
-//Разработать приложение, выполняющее следующие функции:
-//
-//Прием от сервера метаинформации для построения формы
-//Построение динамической формы ввода данных по принятой информации
-//Ввод данных пользователя в построенной форме
-//Отправка введенных данных на сервер
-//Отображение результата, полученного от сервера
-//Во время приёма и отправки на экране отображается ActivityView (любая loading анимация).
-//
-//Форма строится в виде таблицы:
-//
-//В левой части сроки (UITableViewCell) отображается имя поля
-//В правой - элемент управления для ввода (UITextField) значения поля.
-//Заголовок формы отображается в NavigationBar.
-//
-//Поля могут быть следующих типов:
-//
-//Ввод строки (вводится произвольная текстовая строка)
-//Ввод числа (вводится целое или дробное число)
+
+
 //Выбор значения (выбирается одно значение из списка возможных). Можно как UIPickerView, так и открытием отдельного UIViewController (желательно).
-//В поля ввода добавить валидацию ввода (строка, число).
-//
-//Валидацию числа реализовать по окончанию ввода, через N миллисекунд. Число должно быть > 1 && < 1024
-//Валидацию строки делать по мере ввода. В строке должны использоваться только RU & EN символы + цифры.
-//Под таблицей расположить фоновую картинку из поля “image”. Картинка должна отображаться на экране всегда.
-//
-//Под таблицей (footer) располагается кнопка отправки значений.
-//
-//Числовые значения должны отправляться с точками в качестве десятичных разделителей.
-//
-//Результат операции отправки данных на сервер отображается в диалоге.
-//
 //Обязательно использовать Autolayout, URLSession, Codable.
-//
 //Помните, что, несмотря на то, что данные прилетают всегда одни и те же, подразумевается, что список полностью динамический!

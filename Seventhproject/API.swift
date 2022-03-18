@@ -52,7 +52,10 @@ class API: NSObject {
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		guard let httpBody =  try? JSONSerialization.data(withJSONObject: jsonBody, options: []) else {return}
 		request.httpBody = httpBody
-		let session = URLSession.shared
+
+		let configuration = URLSessionConfiguration.default
+		configuration.timeoutIntervalForRequest = 30
+		let session = URLSession(configuration: configuration)
 		session.dataTask(with: request) {
 			data, _, error in
 			guard let data = data, error == nil else {
