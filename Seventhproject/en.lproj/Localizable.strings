@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Seventhproject
+
+  Created by Tatsiana Marchanka on 18.03.22.
+  
+*/
+"cancel" = "Cancel";
+"error" = "Error";
+"sended" = "Success";
+"buttonText" = "Send request";

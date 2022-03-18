@@ -24,6 +24,7 @@ class ListTypeTableViewCell: UITableViewCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(buttom)
 		contentView.addSubview(infoLable)
+		contentView.backgroundColor = .clear
 		infoLable.snp.makeConstraints { (make) -> Void in
 			make.leading.equalTo(contentView.snp_leadingMargin)
 			make.trailing.equalTo(buttom.snp_leadingMargin).offset(-40)

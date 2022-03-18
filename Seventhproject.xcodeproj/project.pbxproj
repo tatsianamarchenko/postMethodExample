@@ -8,15 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		50B9DE9B9D431CA8CC2C85F1 /* Pods_Seventhproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263FDDF62CF1D9EF5235F734 /* Pods_Seventhproject.framework */; };
+		BF9FF8C627E4E7CA00586AB7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF9FF8C827E4E7CA00586AB7 /* Localizable.strings */; };
+		BF9FF8CB27E50B8F00586AB7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9FF8CA27E50B8F00586AB7 /* Constants.swift */; };
 		BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078DC27E01122007B02B5 /* AppDelegate.swift */; };
 		BFA078DF27E01122007B02B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078DE27E01122007B02B5 /* SceneDelegate.swift */; };
 		BFA078E127E01122007B02B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078E027E01122007B02B5 /* ViewController.swift */; };
 		BFA078E627E01127007B02B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA078E527E01127007B02B5 /* Assets.xcassets */; };
 		BFA078E927E01127007B02B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */; };
-		BFA078F127E21DA3007B02B5 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */; };
+		BFA078F127E21DA3007B02B5 /* TextNumericTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F027E21DA2007B02B5 /* TextNumericTypeTableViewCell.swift */; };
 		BFA078F327E22A09007B02B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F227E22A09007B02B5 /* API.swift */; };
 		BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078F527E2A661007B02B5 /* ResponseModel.swift */; };
-		BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */; };
+		BFA078FB27E2A6B9007B02B5 /* RequesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FA27E2A6B9007B02B5 /* RequesModel.swift */; };
 		BFA078FD27E374ED007B02B5 /* ListTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */; };
 		BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */; };
 /* End PBXBuildFile section */
@@ -25,6 +27,10 @@
 		263FDDF62CF1D9EF5235F734 /* Pods_Seventhproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Seventhproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		59FA1F805BDA9E0227E7C1F3 /* Pods-Seventhproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seventhproject.debug.xcconfig"; path = "Target Support Files/Pods-Seventhproject/Pods-Seventhproject.debug.xcconfig"; sourceTree = "<group>"; };
 		A86D126799682BADAC2A4F9D /* Pods-Seventhproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seventhproject.release.xcconfig"; path = "Target Support Files/Pods-Seventhproject/Pods-Seventhproject.release.xcconfig"; sourceTree = "<group>"; };
+		BF9FF8C227E4E79300586AB7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		BF9FF8C727E4E7CA00586AB7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF9FF8C927E4E7CC00586AB7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF9FF8CA27E50B8F00586AB7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BFA078D927E01122007B02B5 /* Seventhproject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seventhproject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA078DC27E01122007B02B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA078DE27E01122007B02B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,10 +38,10 @@
 		BFA078E527E01127007B02B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFA078E827E01127007B02B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFA078EA27E01127007B02B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
+		BFA078F027E21DA2007B02B5 /* TextNumericTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNumericTypeTableViewCell.swift; sourceTree = "<group>"; };
 		BFA078F227E22A09007B02B5 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		BFA078F527E2A661007B02B5 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
-		BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoModel.swift; sourceTree = "<group>"; };
+		BFA078FA27E2A6B9007B02B5 /* RequesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesModel.swift; sourceTree = "<group>"; };
 		BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTypeTableViewCell.swift; sourceTree = "<group>"; };
 		BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,9 +100,11 @@
 				BFA078DE27E01122007B02B5 /* SceneDelegate.swift */,
 				BFA078E027E01122007B02B5 /* ViewController.swift */,
 				BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */,
-				BFA078F027E21DA2007B02B5 /* InfoTableViewCell.swift */,
+				BFA078F027E21DA2007B02B5 /* TextNumericTypeTableViewCell.swift */,
 				BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */,
 				BFA078F227E22A09007B02B5 /* API.swift */,
+				BF9FF8CA27E50B8F00586AB7 /* Constants.swift */,
+				BF9FF8C827E4E7CA00586AB7 /* Localizable.strings */,
 				BFA078E527E01127007B02B5 /* Assets.xcassets */,
 				BFA078F427E2A654007B02B5 /* Model */,
 				BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */,
@@ -109,7 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA078F527E2A661007B02B5 /* ResponseModel.swift */,
-				BFA078FA27E2A6B9007B02B5 /* InfoModel.swift */,
+				BFA078FA27E2A6B9007B02B5 /* RequesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -158,6 +166,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = BFA078D027E01122007B02B5;
 			productRefGroup = BFA078DA27E01122007B02B5 /* Products */;
@@ -175,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA078E927E01127007B02B5 /* LaunchScreen.storyboard in Resources */,
+				BF9FF8C627E4E7CA00586AB7 /* Localizable.strings in Resources */,
 				BFA078E627E01127007B02B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,11 +239,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA078E127E01122007B02B5 /* ViewController.swift in Sources */,
-				BFA078F127E21DA3007B02B5 /* InfoTableViewCell.swift in Sources */,
+				BFA078F127E21DA3007B02B5 /* TextNumericTypeTableViewCell.swift in Sources */,
 				BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */,
 				BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */,
 				BFA078DF27E01122007B02B5 /* SceneDelegate.swift in Sources */,
-				BFA078FB27E2A6B9007B02B5 /* InfoModel.swift in Sources */,
+				BF9FF8CB27E50B8F00586AB7 /* Constants.swift in Sources */,
+				BFA078FB27E2A6B9007B02B5 /* RequesModel.swift in Sources */,
 				BFA078F627E2A662007B02B5 /* ResponseModel.swift in Sources */,
 				BFA078F327E22A09007B02B5 /* API.swift in Sources */,
 				BFA078FD27E374ED007B02B5 /* ListTypeTableViewCell.swift in Sources */,
@@ -243,10 +254,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		BF9FF8C827E4E7CA00586AB7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF9FF8C727E4E7CA00586AB7 /* en */,
+				BF9FF8C927E4E7CC00586AB7 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BFA078E727E01127007B02B5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				BFA078E827E01127007B02B5 /* Base */,
+				BF9FF8C227E4E79300586AB7 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -258,6 +279,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -319,6 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

@@ -8,8 +8,6 @@
 import Foundation
 
 class API: NSObject {
-	let urlATMsString = "http://test.clevertec.ru/tt/meta/"
-
 
 	// MARK: - Block implementation
 
@@ -23,7 +21,7 @@ class API: NSObject {
 			configuration.timeoutIntervalForRequest = 30
 			let session = URLSession(configuration: configuration)
 			session.dataTask(with: url) { (data, _, error) in
-				if let error = error {
+				if error != nil {
 					completion(.failure(.errorGeneral))
 					return
 				}
@@ -41,8 +39,8 @@ class API: NSObject {
 			}.resume()
 	}
 
-	func makePOSTRequest <T: Decodable> (data: [String : [String : String]], completion: @escaping((Result<T, Error>) -> Void)) {
-		guard let url = URL(string: "http://test.clevertec.ru/tt/data/")
+	func makePOSTRequest <T: Decodable> (url: String, data: [String : [String : String]], completion: @escaping((Result<T, Error>) -> Void)) {
+		guard let url = URL(string: url)
 		else {return}
 		var request = URLRequest(url: url)
 
@@ -58,6 +56,11 @@ class API: NSObject {
 		let session = URLSession(configuration: configuration)
 		session.dataTask(with: request) {
 			data, _, error in
+
+			if error != nil {
+				completion(.failure(error!))
+			}
+
 			guard let data = data, error == nil else {
 				return
 			}

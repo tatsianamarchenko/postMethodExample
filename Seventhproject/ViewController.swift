@@ -11,17 +11,19 @@ import NVActivityIndicatorView
 
 class ViewController: UIViewController {
 
+	let constants = Constants()
 	private lazy var image = UIImageView()
 
 	private lazy var infoTable: UITableView = {
 		let table = UITableView()
-		table.register(InfoTableViewCell.self, forCellReuseIdentifier: InfoTableViewCell.cellIdentifier)
+		table.register(TextNumericTypeTableViewCell.self, forCellReuseIdentifier: TextNumericTypeTableViewCell.cellIdentifier)
+		table.translatesAutoresizingMaskIntoConstraints = false
 		return table
 	}()
 
 	private lazy var alert: UIAlertController = {
 		var alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "отмена", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil))
 		return alert
 	}()
 	var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(), type: nil, color: nil, padding: nil)
@@ -30,11 +32,10 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: .systemMint, padding: nil)
 		activityIndicatorView.startAnimating()
-		API().fetch(urlString: API().urlATMsString) { (result: Result<Empty, CustomError>)  in
+		API().fetch(urlString: constants.getUrl) { (result: Result<Empty, CustomError>)  in
 			switch result {
 			case .success(let success):
 				self.array = success.fields
-				print("xd")
 				DispatchQueue.main.async { [self] in
 					self.infoTable.reloadData()
 					self.title = success.title
@@ -51,10 +52,13 @@ class ViewController: UIViewController {
 					objectArray.sort {
 						$0.key < $1.key
 					}
-
-
 				}
 			case .failure(let failure):
+				DispatchQueue.main.async { [self] in
+					alert.title = NSLocalizedString("error", comment: "")
+					alert.message = failure.localizedDescription
+					present(alert, animated: true)
+				}
 				print("error")
 			}
 		}
@@ -64,18 +68,29 @@ class ViewController: UIViewController {
 		view.addSubview(activityIndicatorView)
 		infoTable.dataSource = self
 		infoTable.delegate = self
+		//	infoTable.backgroundColor = .systemMint
+		//		infoTable.backgroundView = self.image
+		//		infoTable.backgroundView?.contentMode = .scaleAspectFit
+
+
 		infoTable.snp.makeConstraints { (make) -> Void in
-			make.leading.trailing.top.equalToSuperview()
-			make.bottom.equalTo(image.snp_topMargin)
+			make.leading.trailing.top.bottom.equalToSuperview()
+			//	make.bottom.equalTo(image.snp_topMargin)
 		}
 		image.snp.makeConstraints { (make) -> Void in
 			make.leading.equalToSuperview().offset(10)
 			make.trailing.equalToSuperview().offset(-10)
 			make.top.equalTo(infoTable.snp_topMargin).offset(230)
 		}
+		//		NSLayoutConstraint.activate([
+		//			infoTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+		//			infoTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		//			infoTable.topAnchor.constraint(equalTo: view.topAnchor),
+		//			infoTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+		//		])
 	}
-	var text: String = "empty"
-	var numeric: String = "empty"
+	var text = Constants().emptyStringUserResponse
+	var numeric = Constants().emptyStringUserResponse
 
 	var valuesRecived: Values?
 	var valuesPicker = UIPickerView()
@@ -91,12 +106,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		if let cell = infoTable.dequeueReusableCell(withIdentifier: InfoTableViewCell.cellIdentifier, for: indexPath)
-			as? InfoTableViewCell {
+		if let cell = infoTable.dequeueReusableCell(withIdentifier: TextNumericTypeTableViewCell.cellIdentifier, for: indexPath)
+			as? TextNumericTypeTableViewCell {
 			cell.config(model: array[indexPath.row])
 			cell.textField.delegate = self
 			cell.valuesPicker.dataSource = self
 			cell.valuesPicker.delegate = self
+			cell.backgroundColor = .clear
 			cell.textField.addTarget(self, action: #selector(textinfo(sender:)), for: UIControl.Event.editingChanged)
 			return cell
 		}
@@ -104,19 +120,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	@objc func textinfo(sender: UITextField) {
 
-		if	sender.accessibilityIdentifier == "text"  {
+		if	sender.accessibilityIdentifier == constants.textTypeIdentifier {
 			guard let textFilter = sender.text else { return }
-			let ruCharacters = "йцукенгшщзхъфывапролджэёячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЁЯЧСМИТЬБЮ"
-			let engCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-			let numbers = "1234567890"
-			sender.text = textFilter.filter { ruCharacters.contains($0) || engCharacters.contains($0) || numbers.contains($0)}
-			text =  sender.text ?? "empty"
+			sender.text = textFilter.filter { constants.ruSymbols.contains($0) || constants.engSymbols.contains($0) || constants.numbers.contains($0)}
+			text =  sender.text ?? constants.emptyStringUserResponse
 		}
-		if	sender.accessibilityIdentifier == "numeric" {
+		if	sender.accessibilityIdentifier == constants.numericTypeIdentifier {
 			guard let textFilter = sender.text else { return }
-			let numbers = "1234567890"
-			let symbol = "."
-			sender.text = textFilter.filter {numbers.contains($0) || symbol.contains($0)}
+			sender.text = textFilter.filter {constants.numbers.contains($0) || constants.symbol.contains($0)}
 		}
 	}
 
@@ -131,7 +142,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 		let buttom = UIButton()
 		buttom.backgroundColor = .systemMint
-		buttom.setTitle("send info", for: .normal)
+		buttom.setTitle(NSLocalizedString("buttonText", comment: ""), for: .normal)
 		buttom.setTitleColor(.systemMint, for: .highlighted)
 		buttom.addTarget(self, action: #selector(send), for: .touchUpInside)
 		return buttom
@@ -150,19 +161,19 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
 	@objc func send() {
 		activityIndicatorView.startAnimating()
-		API().makePOSTRequest(data: ["form": ["text": text, "numeric": numeric, "list": returnValue]]) { [self] (result:Result<Response, Error>)  in
+		API().makePOSTRequest(url: constants.postUrl, data: ["form": ["text": text, "numeric": numeric, "list": returnValue]]) { [self] (result:Result<Response, Error>)  in
 			switch result {
 			case .success(let success):
 				print(success.result)
 				DispatchQueue.main.async {
-					alert.title = "отправлено"
+					alert.title = NSLocalizedString("sended", comment: "")
 					alert.message = success.result
 					present(alert, animated: true)
 					activityIndicatorView.stopAnimating()
 				}
 			case .failure(let failure):
 				DispatchQueue.main.async {
-					alert.title = "ошибка"
+					alert.title = NSLocalizedString("error", comment: "")
 					alert.message = failure.localizedDescription
 					present(alert, animated: true)
 				}
@@ -182,12 +193,12 @@ extension ViewController: UITextFieldDelegate {
 	}
 
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-		if textField.accessibilityIdentifier == "text" {
+		if textField.accessibilityIdentifier == constants.textTypeIdentifier {
 			let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
 			print(text)
 			return true
 		}
-		if textField.accessibilityIdentifier == "numeric" {
+		if textField.accessibilityIdentifier == constants.numericTypeIdentifier {
 			NSObject.cancelPreviousPerformRequests(
 				withTarget: self,
 				selector: #selector(self.getHintsFromTextField),
@@ -202,13 +213,15 @@ extension ViewController: UITextFieldDelegate {
 	}
 
 	@objc func getHintsFromTextField(textField: UITextField) {
-		guard let textFilter = textField.text else { return }
+		guard var textFilter = textField.text else { return }
+		textFilter = textFilter.replacingOccurrences(of: ",", with: ".")
+		textField.text = textFilter
 		if let number = NumberFormatter().number(from: textFilter)?.doubleValue {
 			if number > 1 && number < 1024 {
 				numeric = String(number)
 				print("Hints for textField: \(numeric)")
 			} else {
-				numeric = "empty"
+				numeric = constants.emptyStringUserResponse
 				textField.text = ""
 				print("Hints for textField: \(numeric)")
 			}

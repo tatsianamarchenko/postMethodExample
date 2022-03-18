@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class InfoTableViewCell: UITableViewCell {
+class TextNumericTypeTableViewCell: UITableViewCell {
 	static var cellIdentifier = "InfoTableViewCell"
 
 	var textField: UITextField = {
@@ -16,6 +16,11 @@ class InfoTableViewCell: UITableViewCell {
 		textfield.layer.cornerRadius = 5
 		textfield.layer.borderWidth = 1
 		return textfield
+	}()
+	var button: UIButton = {
+		var button = UIButton()
+		button.backgroundColor = .orange
+		return button
 	}()
 
 	var valuesPicker = UIPickerView()
@@ -25,14 +30,7 @@ class InfoTableViewCell: UITableViewCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(textField)
 		contentView.addSubview(infoLable)
-
-
-
-
-
-
-
-
+		contentView.addSubview(button)
 		toolBar.barStyle = UIBarStyle.default
 		toolBar.isTranslucent = true
 		toolBar.tintColor = .systemMint
