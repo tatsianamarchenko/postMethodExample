@@ -9,3 +9,4 @@
 "error" = "Ошибка";
 "sended" = "Отправлено";
 "buttonText" = "Отправить запрос";
+"doneButtonText" = "Готово";

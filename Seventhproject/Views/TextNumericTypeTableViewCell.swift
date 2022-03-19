@@ -15,6 +15,7 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 		var textfield = UITextField()
 		textfield.layer.cornerRadius = 5
 		textfield.layer.borderWidth = 1
+		textfield.translatesAutoresizingMaskIntoConstraints = false
 		return textfield
 	}()
 	var button: UIButton = {
@@ -24,7 +25,13 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 	}()
 
 	var valuesPicker = UIPickerView()
-	private lazy var infoLable = UILabel()
+
+	private lazy var infoLable: UILabel = {
+		let infolable = UILabel()
+		infolable.translatesAutoresizingMaskIntoConstraints = false
+		return infolable
+	}()
+
 	var toolBar = UIToolbar()
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -34,22 +41,21 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 		toolBar.barStyle = UIBarStyle.default
 		toolBar.isTranslucent = true
 		toolBar.tintColor = .systemMint
-	 toolBar.sizeToFit()
-		let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelClicked))
+		toolBar.sizeToFit()
+		let doneButton = UIBarButtonItem(title: NSLocalizedString("doneButtonText", comment: ""), style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelClicked))
 
 		toolBar.setItems([doneButton], animated: true)
-
-		infoLable.snp.makeConstraints { (make) -> Void in
-			make.leading.equalTo(contentView.snp_leadingMargin)
-			make.top.equalTo(contentView.snp_topMargin)
-			make.trailing.equalTo(textField.snp_leadingMargin).offset(-40)
-		}
-
-		textField.snp.makeConstraints { (make) -> Void in
-		//	make.leading.equalTo(infoLable.snp_trailingMargin).offset(20)
-			make.trailing.equalTo(contentView.snp_trailingMargin)
-			make.top.equalTo(contentView.snp_topMargin)
-		}
+		
+		NSLayoutConstraint.activate([
+			infoLable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+			infoLable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+		])
+		NSLayoutConstraint.activate([
+			textField.leadingAnchor.constraint(equalTo: infoLable.trailingAnchor, constant: 10),
+			textField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2.5),
+			textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+			textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+		])
 	}
 
 
@@ -69,11 +75,11 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 		infoLable.numberOfLines = 0
 		textField.inputAccessoryView = toolBar
 		switch model.type {
-		case "TEXT" : print("TEXT")
+		case "TEXT" :
 			textField.keyboardType = .default
-		case "NUMERIC" : print("NUMERIC")
+		case "NUMERIC" :
 			textField.keyboardType = .numbersAndPunctuation
-		case "LIST" : print("NUMERIC")
+		case "LIST" :
 			textField.inputView = valuesPicker
 		default:
 			break

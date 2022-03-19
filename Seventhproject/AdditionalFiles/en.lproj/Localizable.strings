@@ -9,3 +9,4 @@
 "error" = "Error";
 "sended" = "Success";
 "buttonText" = "Send request";
+"doneButtonText" = "Done";

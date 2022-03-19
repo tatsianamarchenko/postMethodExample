@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
 	let symbol = ".,"
@@ -21,4 +22,8 @@ struct Constants {
 
 	let getUrl = "http://test.clevertec.ru/tt/meta/"
 	let postUrl = "http://test.clevertec.ru/tt/data/"
+
+	let heightForFooter: CGFloat = 30
+	let heightForRow: CGFloat = 60
+	let numberOfPickerComponents = 1
 }
