@@ -42,7 +42,7 @@ class RequestViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: .systemMint, padding: nil)
+		activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: constants.mainColor, padding: nil)
 		activityIndicatorView.startAnimating()
 		loadInfo()
 		view.backgroundColor = .systemBackground
@@ -57,8 +57,8 @@ class RequestViewController: UIViewController {
 		])
 
 		NSLayoutConstraint.activate([
-			image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-			image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+			image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constants.generalOffset),
+			image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constants.generalOffset),
 			image.topAnchor.constraint(equalTo: infoTable.bottomAnchor)
 		])
 	}
@@ -114,7 +114,8 @@ class RequestViewController: UIViewController {
 
 	@objc func send() {
 		activityIndicatorView.startAnimating()
-		API().makePOSTRequest(url: constants.postUrl, data: ["form": ["text": textValue, "numeric": numericValue, "list": listValue]]) { [self] (result:Result<Response, Error>)  in
+		let userData = ["form": ["text": textValue, "numeric": numericValue, "list": listValue]]
+		API().makePOSTRequest(url: constants.postUrl, data: userData) { [self] (result:Result<Response, Error>)  in
 			switch result {
 			case .success(let success):
 				print(success.result)
@@ -146,7 +147,6 @@ class RequestViewController: UIViewController {
 			sender.text = textFilter.filter {constants.numbers.contains($0) || constants.symbol.contains($0)}
 		}
 	}
-
 }
 
 extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
@@ -155,16 +155,16 @@ extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		if let cell = infoTable.dequeueReusableCell(withIdentifier: TextNumericTypeTableViewCell.cellIdentifier, for: indexPath)
-			as? TextNumericTypeTableViewCell {
-			cell.config(model: tableFieldsArray[indexPath.row])
-			cell.textField.delegate = self
-			cell.valuesPicker.dataSource = self
-			cell.valuesPicker.delegate = self
-			cell.backgroundColor = .clear
-			cell.textField.addTarget(self, action: #selector(filterOfTextField(sender:)), for: UIControl.Event.editingChanged)
-			return cell
-		}
+			if let cell = infoTable.dequeueReusableCell(withIdentifier: TextNumericTypeTableViewCell.cellIdentifier, for: indexPath)
+				as? TextNumericTypeTableViewCell {
+				cell.config(model: tableFieldsArray[indexPath.row])
+				cell.textField.delegate = self
+				cell.valuesPicker.dataSource = self
+				cell.valuesPicker.delegate = self
+				cell.backgroundColor = .clear
+				cell.textField.addTarget(self, action: #selector(filterOfTextField(sender:)), for: UIControl.Event.editingChanged)
+				return cell
+			}
 		return UITableViewCell()
 	}
 
@@ -174,9 +174,9 @@ extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 		let buttom = UIButton()
-		buttom.backgroundColor = .systemMint
+		buttom.backgroundColor = constants.mainColor
 		buttom.setTitle(NSLocalizedString("buttonText", comment: ""), for: .normal)
-		buttom.setTitleColor(.systemMint, for: .highlighted)
+		buttom.setTitleColor(.systemPink, for: .highlighted)
 		buttom.addTarget(self, action: #selector(send), for: .touchUpInside)
 		return buttom
 	}
@@ -223,7 +223,6 @@ extension RequestViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
 		objectArray.count
 	}
-
 
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 		print(objectArray[row].value)

@@ -14,9 +14,9 @@ struct Constants {
 	let engSymbols = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
 	let numbers = "1234567890"
 
-	let textTypeIdentifier = "text"
-	let numericTypeIdentifier = "numeric"
-	let listTypeIdentifier = "list"
+	let textTypeIdentifier = "TEXT"
+	let numericTypeIdentifier = "NUMERIC"
+	let listTypeIdentifier = "LIST"
 
 	let emptyStringUserResponse = "empty"
 
@@ -26,4 +26,8 @@ struct Constants {
 	let heightForFooter: CGFloat = 30
 	let heightForRow: CGFloat = 60
 	let numberOfPickerComponents = 1
+	let generalOffset: CGFloat = 10
+	let widthOfTextFields = UIScreen.main.bounds.width/2.5
+
+	let mainColor: UIColor = .systemMint
 }

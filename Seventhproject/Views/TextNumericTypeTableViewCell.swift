@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class TextNumericTypeTableViewCell: UITableViewCell {
+let constants = Constants()
 	static var cellIdentifier = "InfoTableViewCell"
 
 	var textField: UITextField = {
@@ -17,11 +18,6 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 		textfield.layer.borderWidth = 1
 		textfield.translatesAutoresizingMaskIntoConstraints = false
 		return textfield
-	}()
-	var button: UIButton = {
-		var button = UIButton()
-		button.backgroundColor = .orange
-		return button
 	}()
 
 	var valuesPicker = UIPickerView()
@@ -37,24 +33,23 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		contentView.addSubview(textField)
 		contentView.addSubview(infoLable)
-		contentView.addSubview(button)
 		toolBar.barStyle = UIBarStyle.default
 		toolBar.isTranslucent = true
-		toolBar.tintColor = .systemMint
+		toolBar.tintColor = constants.mainColor
 		toolBar.sizeToFit()
 		let doneButton = UIBarButtonItem(title: NSLocalizedString("doneButtonText", comment: ""), style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelClicked))
 
 		toolBar.setItems([doneButton], animated: true)
 		
 		NSLayoutConstraint.activate([
-			infoLable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-			infoLable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+			infoLable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constants.generalOffset),
+			infoLable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constants.generalOffset)
 		])
 		NSLayoutConstraint.activate([
-			textField.leadingAnchor.constraint(equalTo: infoLable.trailingAnchor, constant: 10),
-			textField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2.5),
-			textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-			textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+			textField.leadingAnchor.constraint(equalTo: infoLable.trailingAnchor, constant: constants.generalOffset),
+			textField.widthAnchor.constraint(equalToConstant: constants.widthOfTextFields),
+			textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constants.generalOffset),
+			textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constants.generalOffset)
 		])
 	}
 
@@ -70,16 +65,16 @@ class TextNumericTypeTableViewCell: UITableViewCell {
 	func config (model: Field) {
 		infoLable.text = model.title
 		textField.placeholder = model.type
-		textField.accessibilityIdentifier = model.name
+		textField.accessibilityIdentifier = model.type
 		infoLable.lineBreakMode = NSLineBreakMode.byWordWrapping
 		infoLable.numberOfLines = 0
 		textField.inputAccessoryView = toolBar
 		switch model.type {
-		case "TEXT" :
+		case constants.textTypeIdentifier :
 			textField.keyboardType = .default
-		case "NUMERIC" :
+		case constants.numericTypeIdentifier :
 			textField.keyboardType = .numbersAndPunctuation
-		case "LIST" :
+		case constants.listTypeIdentifier :
 			textField.inputView = valuesPicker
 		default:
 			break
