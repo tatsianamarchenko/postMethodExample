@@ -10,31 +10,34 @@ import UIKit
 class ListTypeTableViewCell: UITableViewCell {
 
 	static var cellIdentifier = "ListTypeTableViewCell"
-
+	let constants = Constants()
 	private lazy var infoLable = UILabel()
 
-	var buttom: UIButton = {
-		var buttom = UIButton()
-		buttom.backgroundColor = .systemMint
-		buttom.layer.cornerRadius = 3
-		return buttom
+	var button: UIButton = {
+		var button = UIButton()
+		button.backgroundColor = .systemMint
+		button.layer.cornerRadius = 3
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
 	}()
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		contentView.addSubview(buttom)
+		contentView.addSubview(button)
 		contentView.addSubview(infoLable)
 		contentView.backgroundColor = .clear
-		infoLable.snp.makeConstraints { (make) -> Void in
-			make.leading.equalTo(contentView.snp_leadingMargin)
-			make.trailing.equalTo(buttom.snp_leadingMargin).offset(-40)
-			make.top.equalTo(contentView.snp_topMargin)
-		}
+		infoLable.translatesAutoresizingMaskIntoConstraints = false
 
-		buttom.snp.makeConstraints { (make) -> Void in
-			make.trailing.equalTo(contentView.snp_trailingMargin)
-			make.top.equalTo(contentView.snp_topMargin)
-		}
+		NSLayoutConstraint.activate([
+			infoLable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constants.generalOffset),
+			infoLable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constants.generalOffset)
+		])
+		NSLayoutConstraint.activate([
+			button.leadingAnchor.constraint(equalTo: infoLable.trailingAnchor, constant: constants.generalOffset),
+			button.widthAnchor.constraint(equalToConstant: constants.widthOfTextFields),
+			button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constants.generalOffset),
+			button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constants.generalOffset)
+		])
 	}
 
 	required init?(coder: NSCoder) {
@@ -45,6 +48,6 @@ class ListTypeTableViewCell: UITableViewCell {
 		infoLable.text = model.title
 		infoLable.lineBreakMode = NSLineBreakMode.byWordWrapping
 		infoLable.numberOfLines = 0
-		buttom.setTitle(model.type, for: .normal)
+		button.setTitle(model.type, for: .normal)
 	}
 }

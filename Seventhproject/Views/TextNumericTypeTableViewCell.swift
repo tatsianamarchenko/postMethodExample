@@ -19,9 +19,7 @@ let constants = Constants()
 		textfield.translatesAutoresizingMaskIntoConstraints = false
 		return textfield
 	}()
-
-	var valuesPicker = UIPickerView()
-
+	
 	private lazy var infoLable: UILabel = {
 		let infolable = UILabel()
 		infolable.translatesAutoresizingMaskIntoConstraints = false
@@ -74,8 +72,6 @@ let constants = Constants()
 			textField.keyboardType = .default
 		case constants.numericTypeIdentifier :
 			textField.keyboardType = .numbersAndPunctuation
-		case constants.listTypeIdentifier :
-			textField.inputView = valuesPicker
 		default:
 			break
 		}

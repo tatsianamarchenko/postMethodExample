@@ -39,7 +39,9 @@ class API: NSObject {
 			}.resume()
 	}
 
-	func makePOSTRequest <T: Decodable> (url: String, data: [String : [String : String]], completion: @escaping((Result<T, Error>) -> Void)) {
+	func makePOSTRequest <T: Decodable> (url: String,
+										 data: [String: [String: String]],
+										 completion: @escaping((Result<T, Error>) -> Void)) {
 		guard let url = URL(string: url)
 		else {return}
 		var request = URLRequest(url: url)
@@ -54,9 +56,7 @@ class API: NSObject {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = 30
 		let session = URLSession(configuration: configuration)
-		session.dataTask(with: request) {
-			data, _, error in
-
+		session.dataTask(with: request) { data, _, error in
 			if error != nil {
 				completion(.failure(error!))
 			}
@@ -68,7 +68,7 @@ class API: NSObject {
 				let decoder = JSONDecoder()
 				let decodedData = try decoder.decode(T.self, from: data)
 				completion(.success(decodedData))
-			} catch  {
+			} catch {
 				completion(.failure(error))
 				print(error)
 			}

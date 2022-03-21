@@ -14,9 +14,9 @@ class RequestViewController: UIViewController {
 	var tableFieldsArray = [Field]()
 	var textValue = Constants().emptyStringUserResponse
 	var numericValue = Constants().emptyStringUserResponse
-	var listValue = Constants().emptyStringUserResponse
+	static var listValue = Constants().emptyStringUserResponse
 	var objectArray = [Row]()
-	
+
 	private lazy var image: UIImageView = {
 		let image = UIImageView()
 		image.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +28,7 @@ class RequestViewController: UIViewController {
 	private lazy var infoTable: UITableView = {
 		let table = UITableView()
 		table.register(TextNumericTypeTableViewCell.self, forCellReuseIdentifier: TextNumericTypeTableViewCell.cellIdentifier)
+		table.register(ListTypeTableViewCell.self, forCellReuseIdentifier: ListTypeTableViewCell.cellIdentifier)
 		table.translatesAutoresizingMaskIntoConstraints = false
 		table.dataSource = self
 		table.delegate = self
@@ -53,7 +54,7 @@ class RequestViewController: UIViewController {
 			infoTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			infoTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			infoTable.topAnchor.constraint(equalTo: view.topAnchor),
-			infoTable.bottomAnchor.constraint(equalTo: view.centerYAnchor),
+			infoTable.bottomAnchor.constraint(equalTo: view.centerYAnchor)
 		])
 
 		NSLayoutConstraint.activate([
@@ -68,21 +69,24 @@ class RequestViewController: UIViewController {
 			switch result {
 			case .success(let success):
 				self.tableFieldsArray = success.fields
-				DispatchQueue.main.async { [self] in
+				DispatchQueue.main.async {
 					self.infoTable.reloadData()
 					self.title = success.title
 					self.image.downloadedFrom(url: success.image)
 					var valuesRecived: Values?
-					for index in 0..<tableFieldsArray.count {
-						if tableFieldsArray[index].values != nil {
-							valuesRecived = tableFieldsArray[index].values
+					for index in 0..<self.tableFieldsArray.count {
+						if self.tableFieldsArray[index].values != nil {
+							valuesRecived = self.tableFieldsArray[index].values
 						}
 					}
-					let valuesDictionary = ["none": valuesRecived?.none, "v1": valuesRecived?.v1, "v2": valuesRecived?.v2, "v3": valuesRecived?.v3 ]
+					let valuesDictionary = ["none": valuesRecived?.none,
+											"v1": valuesRecived?.v1,
+											"v2": valuesRecived?.v2,
+											"v3": valuesRecived?.v3 ]
 					for (key, value) in valuesDictionary {
-						objectArray.append(Row(key: key, value: value!))
+						self.objectArray.append(Row(key: key, value: value!))
 					}
-					objectArray.sort {
+					self.objectArray.sort {
 						$0.key < $1.key
 					}
 					self.activityIndicatorView.stopAnimating()
@@ -96,7 +100,6 @@ class RequestViewController: UIViewController {
 			}
 		}
 	}
-
 
 	@objc func validateNumericTextField(textField: UITextField) {
 		guard var textFilter = textField.text else { return }
@@ -114,8 +117,8 @@ class RequestViewController: UIViewController {
 
 	@objc func send() {
 		activityIndicatorView.startAnimating()
-		let userData = ["form": ["text": textValue, "numeric": numericValue, "list": listValue]]
-		API().makePOSTRequest(url: constants.postUrl, data: userData) { [self] (result:Result<Response, Error>)  in
+		let userData = ["form": ["text": textValue, "numeric": numericValue, "list": RequestViewController.listValue]]
+		API().makePOSTRequest(url: constants.postUrl, data: userData) { [self] (result: Result<Response, Error>)  in
 			switch result {
 			case .success(let success):
 				print(success.result)
@@ -139,7 +142,9 @@ class RequestViewController: UIViewController {
 
 		if	sender.accessibilityIdentifier == constants.textTypeIdentifier {
 			guard let textFilter = sender.text else { return }
-			sender.text = textFilter.filter { constants.ruSymbols.contains($0) || constants.engSymbols.contains($0) || constants.numbers.contains($0)}
+			sender.text = textFilter.filter { constants.ruSymbols.contains($0) ||
+				constants.engSymbols.contains($0) ||
+				constants.numbers.contains($0)}
 			textValue = sender.text ?? constants.emptyStringUserResponse
 		}
 		if	sender.accessibilityIdentifier == constants.numericTypeIdentifier {
@@ -147,6 +152,17 @@ class RequestViewController: UIViewController {
 			sender.text = textFilter.filter {constants.numbers.contains($0) || constants.symbol.contains($0)}
 		}
 	}
+
+	@objc func openPickerVC() {
+
+			let nav = UINavigationController(rootViewController: ValuesViewController(values: objectArray))
+			nav.modalPresentationStyle = .automatic
+			if let sheet = nav.sheetPresentationController {
+				sheet.detents = [.medium(), .large()]
+			}
+			present(nav, animated: true, completion: nil)
+
+		}
 }
 
 extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
@@ -155,16 +171,26 @@ extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-			if let cell = infoTable.dequeueReusableCell(withIdentifier: TextNumericTypeTableViewCell.cellIdentifier, for: indexPath)
+		if tableFieldsArray[indexPath.row].type == constants.textTypeIdentifier ||
+			tableFieldsArray[indexPath.row].type == constants.numericTypeIdentifier {
+			if let cell = infoTable.dequeueReusableCell(withIdentifier: TextNumericTypeTableViewCell.cellIdentifier,
+														for: indexPath)
 				as? TextNumericTypeTableViewCell {
 				cell.config(model: tableFieldsArray[indexPath.row])
 				cell.textField.delegate = self
-				cell.valuesPicker.dataSource = self
-				cell.valuesPicker.delegate = self
 				cell.backgroundColor = .clear
 				cell.textField.addTarget(self, action: #selector(filterOfTextField(sender:)), for: UIControl.Event.editingChanged)
 				return cell
 			}
+		}
+		if tableFieldsArray[indexPath.row].type == constants.listTypeIdentifier {
+			if let cell = infoTable.dequeueReusableCell(withIdentifier: ListTypeTableViewCell.cellIdentifier, for: indexPath)
+				as? ListTypeTableViewCell {
+				cell.config(model: tableFieldsArray[indexPath.row])
+				cell.button.addTarget(self, action: #selector(openPickerVC), for: .touchUpInside)
+				return cell
+			}
+		}
 		return UITableViewCell()
 	}
 
@@ -188,7 +214,9 @@ extension RequestViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension RequestViewController: UITextFieldDelegate {
 
-	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+	func textField(_ textField: UITextField,
+				   shouldChangeCharactersIn range: NSRange,
+				   replacementString string: String) -> Bool {
 		if textField.accessibilityIdentifier == constants.textTypeIdentifier {
 			let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
 			print(text)
@@ -202,7 +230,7 @@ extension RequestViewController: UITextFieldDelegate {
 			self.perform(
 				#selector(self.validateNumericTextField),
 				with: textField,
-				afterDelay: 2)
+				afterDelay: constants.delayTime)
 			return true
 		}
 		return true
@@ -213,27 +241,3 @@ extension RequestViewController: UITextFieldDelegate {
 		return true
 	}
 }
-
-extension RequestViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-
-	func numberOfComponents(in pickerView: UIPickerView) -> Int {
-		constants.numberOfPickerComponents
-	}
-
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		objectArray.count
-	}
-
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-		print(objectArray[row].value)
-		return objectArray[row].value
-	}
-
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		listValue = objectArray[row].key
-	}
-
-}
-
-//Выбор значения (выбирается одно значение из списка возможных). Можно как UIPickerView, так и открытием отдельного UIViewController (желательно).
-//Обязательно использовать Autolayout, URLSession, Codable.
