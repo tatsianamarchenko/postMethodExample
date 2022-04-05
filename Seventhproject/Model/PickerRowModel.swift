@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Row {
+struct PickerRow {
 	var key: String
 	var value: String
 }

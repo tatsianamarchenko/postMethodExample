@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SnapKit
+
 import NVActivityIndicatorView
 
 class RequestViewController: UIViewController {
@@ -15,7 +15,7 @@ class RequestViewController: UIViewController {
 	var textValue = Constants().emptyStringUserResponse
 	var numericValue = Constants().emptyStringUserResponse
 	static var listValue = Constants().emptyStringUserResponse
-	var objectArray = [Row]()
+	var objectArray = [PickerRow]()
 
 	private lazy var image: UIImageView = {
 		let image = UIImageView()
@@ -23,7 +23,8 @@ class RequestViewController: UIViewController {
 		return image
 	}()
 
-	private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(), type: nil, color: nil, padding: nil)
+	private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100),
+																	 type: .ballZigZag, color: constants.mainColor, padding: nil)
 
 	private lazy var infoTable: UITableView = {
 		let table = UITableView()
@@ -43,7 +44,6 @@ class RequestViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: view.frame.midX-50, y: view.frame.midY-50, width: 100, height: 100), type: .ballZigZag, color: constants.mainColor, padding: nil)
 		activityIndicatorView.startAnimating()
 		loadInfo()
 		view.backgroundColor = .systemBackground
@@ -53,7 +53,7 @@ class RequestViewController: UIViewController {
 		NSLayoutConstraint.activate([
 			infoTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			infoTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			infoTable.topAnchor.constraint(equalTo: view.topAnchor),
+			infoTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			infoTable.bottomAnchor.constraint(equalTo: view.centerYAnchor)
 		])
 
@@ -65,31 +65,14 @@ class RequestViewController: UIViewController {
 	}
 
 	func loadInfo() {
-		API().fetch(urlString: constants.getUrl) { (result: Result<Empty, CustomError>)  in
+		API().fetch(urlString: constants.getUrl) { (result: Result<FullResponse, CustomError>)  in
 			switch result {
 			case .success(let success):
 				self.tableFieldsArray = success.fields
-				DispatchQueue.main.async {
-					self.infoTable.reloadData()
-					self.title = success.title
-					self.image.downloadedFrom(url: success.image)
-					var valuesRecived: Values?
-					for index in 0..<self.tableFieldsArray.count {
-						if self.tableFieldsArray[index].values != nil {
-							valuesRecived = self.tableFieldsArray[index].values
-						}
-					}
-					let valuesDictionary = ["none": valuesRecived?.none,
-											"v1": valuesRecived?.v1,
-											"v2": valuesRecived?.v2,
-											"v3": valuesRecived?.v3 ]
-					for (key, value) in valuesDictionary {
-						self.objectArray.append(Row(key: key, value: value!))
-					}
-					self.objectArray.sort {
-						$0.key < $1.key
-					}
-					self.activityIndicatorView.stopAnimating()
+				self.image.downloadedFrom(url: success.image)
+				DispatchQueue.main.async { [weak self] in
+					self?.title = success.title
+					self?.fillFields()
 				}
 			case .failure(let failure):
 				DispatchQueue.main.async { [self] in
@@ -99,6 +82,27 @@ class RequestViewController: UIViewController {
 				}
 			}
 		}
+	}
+
+	func fillFields() {
+		self.infoTable.reloadData()
+		var valuesRecived: Values?
+		for index in 0..<self.tableFieldsArray.count {
+			if self.tableFieldsArray[index].values != nil {
+				valuesRecived = self.tableFieldsArray[index].values
+			}
+		}
+		let valuesDictionary = ["none": valuesRecived?.noneValue,
+								"v1": valuesRecived?.firstValue,
+								"v2": valuesRecived?.secondValue,
+								"v3": valuesRecived?.therdValue ]
+		for (key, value) in valuesDictionary {
+			self.objectArray.append(PickerRow(key: key, value: value!))
+		}
+		self.objectArray.sort {
+			$0.key < $1.key
+		}
+		self.activityIndicatorView.stopAnimating()
 	}
 
 	@objc func validateNumericTextField(textField: UITextField) {

@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import SnapKit
 
 class ValuesViewController: UIViewController {
 
 	let constants = Constants()
-	var objectArray = [Row]()
+	var objectArray = [PickerRow]()
 
 	var valuesPicker: UIPickerView = {
 		let picker = UIPickerView()
@@ -32,11 +31,6 @@ class ValuesViewController: UIViewController {
 			target: self,
 			action: #selector(cancel))
 
-		valuesPicker.snp.makeConstraints { (make) -> Void in
-			make.leading.equalToSuperview().offset(10)
-			make.trailing.equalToSuperview().offset(-10)
-			make.top.equalToSuperview()
-		}
 		NSLayoutConstraint.activate([
 			valuesPicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constants.generalOffset),
 			valuesPicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constants.generalOffset),
@@ -48,7 +42,7 @@ class ValuesViewController: UIViewController {
 		dismiss(animated: true)
 	}
 
-	init(values: [Row]) {
+	init(values: [PickerRow]) {
 		super.init(nibName: nil, bundle: nil)
 		self.objectArray = values
 	}

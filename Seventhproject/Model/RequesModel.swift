@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Empty: Codable {
+struct FullResponse: Codable {
 	let title: String
 	let image: String
 	let fields: [Field]
@@ -19,5 +19,12 @@ struct Field: Codable {
 }
 
 struct Values: Codable {
-	let none, v1, v2, v3: String
+	let noneValue, firstValue, secondValue, therdValue: String
+
+	enum CodingKeys: String, CodingKey {
+		case noneValue = "none"
+		case firstValue = "v1"
+		case secondValue = "v2"
+		case therdValue = "v3"
+	}
 }

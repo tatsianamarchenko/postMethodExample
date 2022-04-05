@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import SnapKit
 
 class TextNumericTypeTableViewCell: UITableViewCell {
-let constants = Constants()
-	static var cellIdentifier = "InfoTableViewCell"
+	let constants = Constants()
+	static let cellIdentifier = "InfoTableViewCell"
 
 	var textField: UITextField = {
 		var textfield = UITextField()
@@ -23,6 +22,8 @@ let constants = Constants()
 	private lazy var infoLable: UILabel = {
 		let infolable = UILabel()
 		infolable.translatesAutoresizingMaskIntoConstraints = false
+		infolable.lineBreakMode = NSLineBreakMode.byWordWrapping
+		infolable.numberOfLines = 0
 		return infolable
 	}()
 
@@ -50,8 +51,7 @@ let constants = Constants()
 			textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: constants.generalOffset)
 		])
 	}
-
-
+	
 	@objc func cancelClicked(_ button: UIBarButtonItem?) {
 		textField.resignFirstResponder()
 	}
@@ -64,8 +64,6 @@ let constants = Constants()
 		infoLable.text = model.title
 		textField.placeholder = model.type
 		textField.accessibilityIdentifier = model.type
-		infoLable.lineBreakMode = NSLineBreakMode.byWordWrapping
-		infoLable.numberOfLines = 0
 		textField.inputAccessoryView = toolBar
 		switch model.type {
 		case constants.textTypeIdentifier :

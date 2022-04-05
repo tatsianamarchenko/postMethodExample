@@ -24,6 +24,7 @@
 		BFA078FB27E2A6B9007B02B5 /* RequesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FA27E2A6B9007B02B5 /* RequesModel.swift */; };
 		BFA078FD27E374ED007B02B5 /* ListTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */; };
 		BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */; };
+		BFC30E6F27FC5BF200A53419 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC30E6E27FC5BF100A53419 /* CustomError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		BFA078FA27E2A6B9007B02B5 /* RequesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesModel.swift; sourceTree = "<group>"; };
 		BFA078FC27E374EC007B02B5 /* ListTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTypeTableViewCell.swift; sourceTree = "<group>"; };
 		BFA0790027E39F5A007B02B5 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
+		BFC30E6E27FC5BF100A53419 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				BF9FF8CA27E50B8F00586AB7 /* Constants.swift */,
 				BFA078F227E22A09007B02B5 /* API.swift */,
 				BF9FF8CF27E51C8D00586AB7 /* UIImageViewExtension.swift */,
+				BFC30E6E27FC5BF100A53419 /* CustomError.swift */,
 				BFA078DC27E01122007B02B5 /* AppDelegate.swift */,
 				BFA078DE27E01122007B02B5 /* SceneDelegate.swift */,
 			);
@@ -292,6 +295,7 @@
 			files = (
 				BFA078E127E01122007B02B5 /* RequestViewController.swift in Sources */,
 				BFA078F127E21DA3007B02B5 /* TextNumericTypeTableViewCell.swift in Sources */,
+				BFC30E6F27FC5BF200A53419 /* CustomError.swift in Sources */,
 				BF3BC8D927E60640001892F0 /* PickerRowModel.swift in Sources */,
 				BFA0790127E39F5A007B02B5 /* ValuesViewController.swift in Sources */,
 				BFA078DD27E01122007B02B5 /* AppDelegate.swift in Sources */,
